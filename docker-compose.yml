@@ -1,0 +1,18 @@
+version: '3'
+services:
+  iris:
+    image: intersystemsdc/iris-community:preview
+    ports:
+      - 5677:52773
+    command:
+      - -a
+      - iris session iris -U%SYS '##class(Security.Users).UnExpireUserPasswords("*")'
+  n8n:
+    image: n8nio/n8n:latest-debian
+    environment:
+      - N8N_REINSTALL_MISSING_PACKAGES=true
+    ports:
+      - 5678:5678
+    volumes:
+      - ./.n8n:/home/node/.n8n
+      - ./data:/data
